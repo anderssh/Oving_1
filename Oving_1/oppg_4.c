@@ -4,17 +4,15 @@
 int i = 0;
 
 void* thread_function_1() {
-	for (int j = 0; j < 3; j++) {
+	for (int j = 0; j < 1000000; j++) {
 		i++;
-		printf("1: %i;", i);
 	}
 	return NULL;
 }
 
 void* thread_function_2() {
-	for (int j = 0; j < 3; j++) {
+	for (int j = 0; j < 1000000; j++) {
 		i--;
-		printf("2: %i", i);
 	}
 	return NULL;
 }
