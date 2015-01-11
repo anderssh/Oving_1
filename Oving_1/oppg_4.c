@@ -18,7 +18,6 @@ void* thread_function_2() {
 }
 
 int main() {
-
 	pthread_t thread_1;
 	pthread_t thread_2;
 
