@@ -1,3 +1,5 @@
+# python oppg_4.py
+
 from threading import Thread;
 
 i = 0;

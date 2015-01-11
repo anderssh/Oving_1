@@ -1,11 +1,9 @@
-// Go 1.2
-// go run helloworld_go.go
+// go run oppg_4.go
 
 package main
 
 import (
-    . "fmt"     // Using '.' to avoid prefixing functions with their package names
-                //   This is probably not a good idea for large projects...
+    "fmt"
     "runtime"
     "time"
 )
@@ -28,6 +26,5 @@ func main() {
     go Goroutine1()
     go Goroutine2()                      
     time.Sleep(100*time.Millisecond)
-    Println(i)
-
+    fmt.Println(i)
 }

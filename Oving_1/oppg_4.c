@@ -1,3 +1,5 @@
+// gcc -std=gnu99 -Wall -g -o oppg_4_c oppg_4.c -lpthread
+
 #include <pthread.h>
 #include <stdio.h>
 
