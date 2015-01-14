@@ -11,7 +11,7 @@ import (
 var i int = 20
 
 func Goroutine1() {
-    for j := 0; j < 1000000; j++ {
+    for j := 0; j < 1000001; j++ {
         i++;
     }
 }

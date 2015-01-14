@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sanntid</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<h1>Øving 1</h1>
+
+	<h2>Oppgave 3</h2>
+
+	<p>Vi bruker "concurrent execution" eller "multithreading" for å kunne få utført flere oppgaver på kortere tid. 
+	Man får utnyttet maskinen bedre, særlig hvis ett eller flere av de paralelt kjørte programmene inneholder ventetid, så 
+	kan man i stedet for å måtte vente til programmet er ferdig kjørt, kjøre andre programmer mens det første venter.</p>
+
+	<p>Det kan bli vanskeligere å programmere fordi multithreading kan innebære delte resuser. Da er faren (eller moren) at 
+	man tar over en ressurs før det første programmet har utført oppgaven sin, som kan resultere i ikke forventet oppførsel. 
+	Man deler ikke ressurser i sekvensiell programmering.</p>
+
+	<p>
+	<b>Tråd:</b> er en uavhengig utførelsessekvens som benytter delt minne, </br>
+	<b>Prosess</b> er en uavhengig utførelsessekvens som benytter separat minne, </br>
+	<b>Grønn tråd</b> er en tråd som er scheduled av en virtuell maskin. Da er det ikke operativsystemet, men som en applikasjon </br>
+	<b>Korutine</b>er en kontrollstruktur som gjør at man kan kan svitsje mellom funksjoner 'manuelt' i koden.</br>
+	</p>
+
+	<p>
+		pthread_create() lager <b>Tråd</b> </br>
+		threading.Thread() lager <b>Tråd</b> </br>
+		go lager <b>Grønn tråd</b>
+	</p>
+
+	<p>
+		GIL gjør at kun en tråd blir kjørt om gangen. Det gjør at man ikke kan kjøre utnytt flerkjerne prosessor uten flere instanser av programmet
+	</p>
+
+	<p>
+		Måten å unngå problemet med GIL er å bruke modulen <i>multiprocessing</i>.
+	</p>
+
+	<p>
+		Man kan dele variabler og ressurser v.h.a køer, rør, og delte arrays
+	</p>
+
+	<p>
+		func GOMAXPROCS(n int) int fortelle go hvor mange operativsystemtråder som kan brukes. 
+	</p>
+
+	
+</body>
+</html>
