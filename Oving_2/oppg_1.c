@@ -36,6 +36,8 @@ int main() {
 	pthread_join(thread_1, NULL);
 	pthread_join(thread_2, NULL);
 
+	pthread_mutex_destroy(&mutex);
+
 	printf("%i\n", i);
 
 	return 0;
