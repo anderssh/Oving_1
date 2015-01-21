@@ -22,9 +22,14 @@ func Goroutine2() {
     }
 }
 func main() {
-    runtime.GOMAXPROCS(runtime.NumCPU())
-    go Goroutine1()
-    go Goroutine2()                      
-    time.Sleep(100*time.Millisecond)
-    fmt.Println(i)
+
+    runtime.GOMAXPROCS(runtime.NumCPU());
+
+    i_chan := make(chan int, 1);
+    
+    go Goroutine1();
+    go Goroutine2();
+
+    time.Sleep(100*time.Millisecond);
+    fmt.Println(i);
 }
