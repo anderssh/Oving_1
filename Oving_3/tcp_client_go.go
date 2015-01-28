@@ -3,19 +3,23 @@ package main;
 import (
 	"fmt"
 	"net"
-	"strconv"
+	//"strconv"
 	//"os"
 	//"bufio"
 	
 )
+const(
+SERVER_PORT = "33546"
+SERVER_IP = "129.241.187.136"
+CONN_TYPE = "tcp"
+)
 
 func main(){
 	//tcpConnection, err := net.Dial("tcp", google.com:80);
-	serverPort := 33546
-	serverIp := "129.241.187.136"
+
 	response := make([]byte,1024);
 
-	tcpServerAddr, _ := net.ResolveTCPAddr("tcp", serverIp + ":" + strconv.Itoa(serverPort));
+	tcpServerAddr, _ := net.ResolveTCPAddr(CONN_TYPE, SERVER_IP + ":" + SERVER_PORT);
 	tcpConnection, err := net.DialTCP("tcp", nil, tcpServerAddr);
 	message := []byte("Connect to: 78.91.71.186 \x00")
 	n,err := tcpConnection.Write(message)
