@@ -7,7 +7,7 @@ import (
 	"time"
 );
 
-func receive(conn *net.UDPConn) {
+func listen(conn *net.UDPConn) {
 	
 	buffer := make([]byte, 1024);
 
@@ -17,7 +17,7 @@ func receive(conn *net.UDPConn) {
 	}
 }
 
-func listen(conn *net.UDPConn) {
+func transmit(conn *net.UDPConn) {
 	
 	for {
 		time.Sleep(2000*time.Millisecond);
@@ -37,7 +37,7 @@ func main() {
 	listenPort := 20016;
 	listenAddr, _ := net.ResolveUDPAddr("udp", ":" + strconv.Itoa(serverPort));
 
-	fmt.Println(localAddr);
+	fmt.Println(listenAddr);
 	fmt.Println(serverAddr);
 
 	listenConn, _ := net.ListenUDP("udp", listenAddr);
