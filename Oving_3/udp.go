@@ -17,34 +17,42 @@ func receive(conn *net.UDPConn) {
 	}
 }
 
-func transmit(conn *net.UDPConn, serverAddr *net.UDPAddr) {
+func transmit(conn *net.UDPConn) {
 	
 	for {
-		time.Sleep(1000*time.Millisecond);
+		time.Sleep(2000*time.Millisecond);
 
-		message := "Yo server!";
-		conn.WriteToUDP([]byte(message), serverAddr);
-		fmt.Println("Sent: message to server");
+		message := "Hello server";
+		conn.Write([]byte(message));
+		fmt.Println("Sent: " + message);
 	}
 }
 
 func main() {
 
-	listenPort := 20016;
-
 	broadcastIP := "129.241.187.255";
-	broadcastAddr, _ := net.ResolveUDPAddr("udp4", broadcastIP + ":" + strconv.Itoa(listenPort));
+	broadcastPort := 30000;
+	broadcastAddr, _ := net.ResolveUDPAddr("udp", broadcastIP + ":" + strconv.Itoa(broadcastPort));
 
-	tempConn, _ := net.DialUDP("udp4", nil, broadcastAddr);
+	serverIP := "129.241.187.255";
+	serverPort := 20016;
+	serverAddr, _ := net.ResolveUDPAddr("udp", serverIP + ":" + strconv.Itoa(serverPort));
+
+	tempConn, _ := net.DialUDP("udp", nil, broadcastAddr);
 	defer tempConn.Close();
 	tempAddr := tempConn.LocalAddr();
-	localAddr, _ := net.ResolveUDPAddr("udp4", tempAddr.String());
-	localAddr.Port = listenPort;
+	localAddr, _ := net.ResolveUDPAddr("udp", tempAddr.String());
+	localAddr.Port = 20016;
+	// localAddr.Port = broadcastPort;
 
-	localConn, _ := net.ListenUDP("udp4", localAddr);
+	fmt.Println(localAddr);
+	fmt.Println(serverAddr);
 
-	go receive(localConn);
-	go transmit(localConn, broadcastAddr);
+	listenConn, _ := net.ListenUDP("udp", localAddr);
+	transmitConn, _ := net.DialUDP("udp", nil, serverAddr);
+
+	go receive(listenConn);
+	go transmit(transmitConn);
 
 	d_chan := make(chan bool, 1);
 	<- d_chan;
