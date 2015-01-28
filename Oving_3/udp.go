@@ -35,7 +35,7 @@ func main() {
 	serverAddr, _ := net.ResolveUDPAddr("udp", serverIP + ":" + strconv.Itoa(serverPort));
 
 	listenPort := 20016;
-	listenAddr, _ := net.ResolveUDPAddr("udp", ":" + strconv.Itoa(serverPort));
+	listenAddr, _ := net.ResolveUDPAddr("udp", ":" + strconv.Itoa(listenPort));
 
 	fmt.Println(listenAddr);
 	fmt.Println(serverAddr);
