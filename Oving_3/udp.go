@@ -7,7 +7,7 @@ import (
 	"time"
 );
 
-func receive(conn *net.UDPConn) {
+func listen(conn *net.UDPConn) {
 	
 	buffer := make([]byte, 1024);
 
@@ -30,28 +30,20 @@ func transmit(conn *net.UDPConn) {
 
 func main() {
 
-	broadcastIP := "129.241.187.255";
-	broadcastPort := 30000;
-	broadcastAddr, _ := net.ResolveUDPAddr("udp", broadcastIP + ":" + strconv.Itoa(broadcastPort));
-
 	serverIP := "129.241.187.255";
 	serverPort := 20016;
 	serverAddr, _ := net.ResolveUDPAddr("udp", serverIP + ":" + strconv.Itoa(serverPort));
 
-	tempConn, _ := net.DialUDP("udp", nil, broadcastAddr);
-	defer tempConn.Close();
-	tempAddr := tempConn.LocalAddr();
-	localAddr, _ := net.ResolveUDPAddr("udp", tempAddr.String());
-	localAddr.Port = 20016;
-	// localAddr.Port = broadcastPort;
+	listenPort := 20016;
+	listenAddr, _ := net.ResolveUDPAddr("udp", ":" + strconv.Itoa(listenPort));
 
-	fmt.Println(localAddr);
+	fmt.Println(listenAddr);
 	fmt.Println(serverAddr);
 
-	listenConn, _ := net.ListenUDP("udp", localAddr);
+	listenConn, _ := net.ListenUDP("udp", listenAddr);
 	transmitConn, _ := net.DialUDP("udp", nil, serverAddr);
 
-	go receive(listenConn);
+	go listen(listenConn);
 	go transmit(transmitConn);
 
 	d_chan := make(chan bool, 1);
