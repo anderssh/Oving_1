@@ -38,12 +38,7 @@ func main() {
 	serverPort := 20016;
 	serverAddr, _ := net.ResolveUDPAddr("udp", serverIP + ":" + strconv.Itoa(serverPort));
 
-	tempConn, _ := net.DialUDP("udp", nil, broadcastAddr);
-	defer tempConn.Close();
-	tempAddr := tempConn.LocalAddr();
-	localAddr, _ := net.ResolveUDPAddr("udp", tempAddr.String());
-	localAddr.Port = 20016;
-	// localAddr.Port = broadcastPort;
+	localAddr, _ := net.ResolveUDPAddr("udp", ":" + strconv(serverPort));
 
 	fmt.Println(localAddr);
 	fmt.Println(serverAddr);
