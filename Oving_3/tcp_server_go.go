@@ -10,7 +10,7 @@ import (
 
 const (
 	CONN_HOST = "localhost"
-    CONN_PORT = "3333"
+    CONN_PORT = "33546"
     CONN_TYPE = "tcp"
 )
 
@@ -40,10 +40,10 @@ func main(){
 	}
 	fmt.Println("Del 1")
 	TCPconnection, err := listner.Accept()
-	 if err != nil {
-	            fmt.Println("Error accepting: ", err.Error())
-	            os.Exit(1)
-	 }
-	 fmt.Println("Del 2")
+	if err != nil {
+		fmt.Println("Error accepting: ", err.Error())
+	    os.Exit(1)
+	}
+	fmt.Println("Del 2")
 	handleConnection(TCPconnection)
 }
