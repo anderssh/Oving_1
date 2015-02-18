@@ -6,7 +6,7 @@ import(
 	"os/exec"
 	"time"
 	"net"
-	"encoding/binary"
+	"encoding/json"
 );
 
 //-----------------------------------------------//
@@ -17,10 +17,9 @@ func listen(listenConnection *net.UDPConn, listenChannel chan int) {
 
 	for {
 		messageLength, _, _ := listenConnection.ReadFromUDP(messageBuffer);
-		
-		data := binary.BigEndian.Uint64(messageBuffer[0:messageLength]);
-
-		listenChannel <- int(data);
+		var result int;
+		json.Unmarshal(messageBuffer[0:messageLength], &result)
+		listenChannel <- result;
 	}
 }
 
@@ -28,13 +27,16 @@ func timeout(timeoutChannel chan bool, resetTimer chan bool) {
 
 	start := time.Now();
 
+	outerloop:
 	for {
 		select {
 			case <-resetTimer:
 				start = time.Now();
 			default:
-				if time.Since(start) >= time.Millisecond*500 {
+				if time.Since(start) >= time.Millisecond*1500 {
+					fmt.Println("Timeout")
 					timeoutChannel <- true;
+					break outerloop;
 				}
 		}
 	}
@@ -56,6 +58,7 @@ func backup(){
 	go listen(listenConnection, listenChannel);
 	go timeout(timeoutChannel, resetTimer);
 
+	outerloop:
 	for {
 		select {
 			case message := <- listenChannel:
@@ -67,14 +70,9 @@ func backup(){
 				}
 
 			case <- timeoutChannel:
-
-				listenConnection.Close()
-
-				close(listenChannel);
-				close(timeoutChannel);
-				close(resetTimer);
-
-				go master(i);
+				go master(i + 1);
+				listenConnection.Close();
+				break outerloop;
 		}
 	}
 }
@@ -87,7 +85,7 @@ func counting(i int, sendChannel chan int) {
 		fmt.Println(i);
 		sendChannel <- i;
 		i++;
-		time.Sleep(100*time.Millisecond)
+		time.Sleep(1000*time.Millisecond)
 
 	}
 }
@@ -107,11 +105,8 @@ func send(sendChannel chan int) {
 
 		sendAddress, _ := net.ResolveUDPAddr("udp", "localhost:20005");
 		sendConnection, _ := net.DialUDP("udp", nil, sendAddress);
-
-		bs := make([]byte, 4)
-    	binary.LittleEndian.PutUint32(bs, uint32(message))
-
-		sendConnection.Write(bs);
+		result, _ := json.Marshal(message);
+		sendConnection.Write(result);
 	}
 }
 
